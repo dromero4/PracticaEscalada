@@ -3,7 +3,7 @@ out/
 !**/src/main/**/out/
 !**/src/test/**/out/
 
-/src/dao/mysql/connection.java
+!**/src/dao/mysql/connection.java
 
 ### Eclipse ###
 .apt_generated
