@@ -7,6 +7,7 @@ public class Escalador {
     public Escalador(int id, int edat, String nom, String nick, String nivell, String via_favorita, String estil){
         this.id = id;
         this.edat = edat;
+        this.nom = nom;
         this.nick = nick;
         this.nivell = nivell;
         this.via_favorita = via_favorita;
