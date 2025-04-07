@@ -14,9 +14,9 @@ public class SectorDAO {
     }
 
     public void crearSector(Sector sector) throws SQLException {
-        String query = "INSERT INTO sectors (id, num_vies, id_escola, nom, acces, dificultat, regulacions, coordenades) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO sectors (num_vies, id_escola, nom, acces, dificultat, regulacions, coordenades) VALUES (?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
-            stmt.setInt(1, sector.getId());
+
             stmt.setInt(2, sector.getNum_vies());
             stmt.setInt(3, sector.getId_escola());
             stmt.setString(4, sector.getNom());
@@ -34,7 +34,6 @@ public class SectorDAO {
         try (Statement stmt = connection.createStatement(); ResultSet rs = stmt.executeQuery(query)) {
             while (rs.next()) {
                 Sector sector = new Sector(
-                        rs.getInt("id"),
                         rs.getInt("num_vies"),
                         rs.getInt("id_escola"),
                         rs.getString("nom"),

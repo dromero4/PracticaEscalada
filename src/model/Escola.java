@@ -1,11 +1,13 @@
 package model;
 
 public class Escola {
-    private int id, num_vies;
+    private int num_vies;
     private String nom, poblacio, acces, dificultat, regulacions;
 
-    public Escola(int id, int num_vies, String nom, String poblacio, String acces, String dificultat, String regulacions){
-        this.id = id;
+    public Escola(String nom, String poblacio, String acces, int num_vies, String dificultat, String regulacions) throws Exception {
+        if(!verificarDificultat(dificultat)){
+            throw new Exception("El valor de dificultat ha de ser: [baixa, mitjana, alta]");
+        }
         this.num_vies = num_vies;
         this.nom = nom;
         this.acces = acces;
@@ -14,9 +16,6 @@ public class Escola {
         this.regulacions = regulacions;
     }
 
-    public int getId() {
-        return id;
-    }
 
     public int getNum_vies() {
         return num_vies;
@@ -42,9 +41,6 @@ public class Escola {
         return regulacions;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public void setNum_vies(int num_vies) {
         this.num_vies = num_vies;
@@ -68,5 +64,19 @@ public class Escola {
 
     public void setRegulacions(String regulacions) {
         this.regulacions = regulacions;
+    }
+
+    //verificacions
+
+    private boolean verificarDificultat(String dificultat){
+        String[] dificultats = {"baixa", "mitjana", "alta"};
+
+        for (int i = 0; i < dificultats.length; i++) {
+            if (dificultat.equals(dificultats[i])){
+                return true;
+            }
+        }
+
+        return false;
     }
 }

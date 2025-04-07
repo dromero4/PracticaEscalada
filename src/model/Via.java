@@ -1,13 +1,12 @@
 package model;
 
 public class Via {
-    private int id, llargada, id_dificultat, id_escola, id_sector, id_escalador;
+    private int llargada, id_dificultat, id_escola, id_sector, id_escalador;
     private String nom, orientacio, estat, tipus_roca, estil;
 
-    public Via(int id, int llargada, int id_dificultat, int id_escalador, int id_escola, int id_sector,
+    public Via(int llargada, int id_dificultat, int id_escalador, int id_escola, int id_sector,
                String nom, String orientacio, String estat, String tipus_roca, String estil){
 
-        this.id = id;
         this.llargada = llargada;
         this.id_dificultat = id_dificultat;
         this.id_escalador = id_escalador;
@@ -20,9 +19,7 @@ public class Via {
         this.estil = estil;
     }
 
-    public int getId() {
-        return id;
-    }
+
 
     public int getLlargada() {
         return llargada;
@@ -64,9 +61,6 @@ public class Via {
         return estil;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public void setLlargada(int llargada) {
         this.llargada = llargada;

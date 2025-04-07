@@ -1,11 +1,10 @@
 package model;
 
 public class Escalador {
-    private int id, edat;
+    private int edat;
     private String nom, nick, nivell, via_favorita, estil;
 
-    public Escalador(int id, int edat, String nom, String nick, String nivell, String via_favorita, String estil){
-        this.id = id;
+    public Escalador( int edat, String nom, String nick, String nivell, String via_favorita, String estil){
         this.edat = edat;
         this.nom = nom;
         this.nick = nick;
@@ -14,9 +13,6 @@ public class Escalador {
         this.estil = estil;
     }
 
-    public int getId() {
-        return id;
-    }
 
     public int getEdat() {
         return edat;
@@ -42,9 +38,6 @@ public class Escalador {
         return estil;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public void setEdat(int edat) {
         this.edat = edat;

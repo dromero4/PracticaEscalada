@@ -1,15 +1,14 @@
 package model;
 
 public class Sector {
-    private int id, num_vies, id_escola;
+    private int num_vies, id_escola;
     private String nom, acces, dificultat, regulacions;
     private float coordenades;
 
-    public Sector(int id, int num_vies, int id_escola,
+    public Sector(int num_vies, int id_escola,
                   String nom, String acces, String dificultat, String regulacions,
                   float coordenades) {
 
-        this.id = id;
         this.num_vies = num_vies;
         this.id_escola = id_escola;
         this.nom = nom;
@@ -19,9 +18,6 @@ public class Sector {
         this.coordenades = coordenades;
     }
 
-    public int getId() {
-        return id;
-    }
 
     public int getNum_vies() {
         return num_vies;
@@ -51,9 +47,6 @@ public class Sector {
         return coordenades;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public void setNum_vies(int num_vies) {
         this.num_vies = num_vies;

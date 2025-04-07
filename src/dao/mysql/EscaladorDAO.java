@@ -14,9 +14,9 @@ public class EscaladorDAO {
     }
 
     public void crearEscalador(Escalador escalador) throws SQLException {
-        String query = "INSERT INTO escaladores (id, edat, nick, nivell, via_favorita, estil) VALUES (?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO escaladores (edat, nick, nivell, via_favorita, estil) VALUES (?, ?, ?, ?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
-            stmt.setInt(1, escalador.getId());
+
             stmt.setInt(2, escalador.getEdat());
             stmt.setString(3, escalador.getNom());
             stmt.setString(4, escalador.getNick());
@@ -33,7 +33,7 @@ public class EscaladorDAO {
         try (Statement stmt = connection.createStatement(); ResultSet rs = stmt.executeQuery(query)) {
             while (rs.next()) {
                 Escalador escalador = new Escalador(
-                        rs.getInt("id"),
+
                         rs.getInt("edat"),
                         rs.getString("nom"),
                         rs.getString("nick"),

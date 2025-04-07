@@ -14,9 +14,9 @@ public class ViaDAO {
     }
 
     public void crearVia(Via via) throws SQLException {
-        String query = "INSERT INTO vias (id, llargada, id_dificultat, id_escalador, id_escola, id_sector, nom, orientacio, estat, tipus_roca, estil) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO vias (llargada, id_dificultat, id_escalador, id_escola, id_sector, nom, orientacio, estat, tipus_roca, estil) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
-            stmt.setInt(1, via.getId());
+
             stmt.setInt(2, via.getLlargada());
             stmt.setInt(3, via.getId_dificultat());
             stmt.setInt(4, via.getId_escalador());
@@ -37,7 +37,6 @@ public class ViaDAO {
         try (Statement stmt = connection.createStatement(); ResultSet rs = stmt.executeQuery(query)) {
             while (rs.next()) {
                 Via via = new Via(
-                        rs.getInt("id"),
                         rs.getInt("llargada"),
                         rs.getInt("id_dificultat"),
                         rs.getInt("id_escalador"),
