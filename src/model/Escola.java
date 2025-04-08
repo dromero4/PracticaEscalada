@@ -67,7 +67,6 @@ public class Escola {
     }
 
     //verificacions
-
     private boolean verificarDificultat(String dificultat){
         String[] dificultats = {"baixa", "mitjana", "alta"};
 
@@ -79,4 +78,9 @@ public class Escola {
 
         return false;
     }
+
+    //toString
+
+
+
 }

@@ -6,14 +6,15 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EscolaDAO {
+public class EscolaDAO implements DAO<Escola, Integer>{
     private Connection connection;
 
     public EscolaDAO(Connection connection) {
         this.connection = connection;
     }
 
-    public void crearEscola(Escola escola) throws SQLException {
+    @Override
+    public void inserir(Escola escola) {
         String query = "INSERT INTO escola (nom, poblacio, acces, num_vies, dificultat, regulacions) VALUES (?, ?, ?, ?, ?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setString(1, escola.getNom());
@@ -23,11 +24,26 @@ public class EscolaDAO {
             stmt.setString(5, escola.getDificultat());
             stmt.setString(6, escola.getRegulacions());
             stmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 
-    public List<Escola> obtenerEscoles() throws SQLException {
-        String query = "SELECT * FROM escoles";
+    @Override
+    public void modificar(Escola escola) {
+        System.out.println("Not yet implemented");
+
+    }
+
+    @Override
+    public void eliminar(Escola escola) {
+        System.out.println("Not yet implemented");
+
+    }
+
+    @Override
+    public List<Escola> obtenirTots() {
+        String query = "SELECT * FROM escola";
         List<Escola> escoles = new ArrayList<>();
         try (Statement stmt = connection.createStatement(); ResultSet rs = stmt.executeQuery(query)) {
             while (rs.next()) {
@@ -45,5 +61,12 @@ public class EscolaDAO {
             throw new RuntimeException(e);
         }
         return escoles;
+    }
+
+    @Override
+    public Escola obtenir(Integer id) {
+        System.out.println("Not yet implemented");
+
+        return null;
     }
 }

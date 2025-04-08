@@ -4,7 +4,10 @@ public class Escalador {
     private int edat;
     private String nom, nick, nivell, via_favorita, estil;
 
-    public Escalador( int edat, String nom, String nick, String nivell, String via_favorita, String estil){
+    public Escalador(String nom, String nick, int edat, String nivell, String via_favorita, String estil) throws Exception {
+        if(!verificarEstil(estil))  throw new Exception("L'estil ha de ser: [esportiva, gel, classica]");
+        if(!verificarNivell(nivell)) throw new Exception("Nivells disponibles: \"4\",\"4+\",\"5\",\"5+\",\"6a\",\"6a+\",\"6b\",\"6b+\",\"6c\",\"6c+\",\"7a\",\"7a+\",\"7b\",\"7b+\",\"7c\",\"7c+\",\"8a\",\"8a+\",\"8b\"");
+
         this.edat = edat;
         this.nom = nom;
         this.nick = nick;
@@ -61,5 +64,29 @@ public class Escalador {
 
     public void setEstil(String estil) {
         this.estil = estil;
+    }
+
+    //verificar estil
+    //esportiva, gel, classica
+    private static boolean verificarEstil(String estil){
+        String[] estils = {"esportiva", "gel", "classica"};
+
+        for (int i = 0; i < estils.length; i++) {
+            if (estil.equals(estils[i])) return true;
+        }
+
+        return false;
+    }
+
+    //verificar nivell
+    //4,4+,5,5+,6a,6a+,6b,6b+,6c,6c+,7a,7a+,7b,7b+,7c,7c+,8a,8a+,8b
+    private static boolean verificarNivell(String nivell){
+        String[] nivells = {"4","4+","5","5+","6a","6a+","6b","6b+","6c","6c+","7a","7a+","7b","7b+","7c","7c+","8a","8a+","8b"};
+
+        for (int i = 0; i < nivells.length; i++) {
+            if (nivell.equals(nivells[i])) return true;
+        }
+
+        return false;
     }
 }

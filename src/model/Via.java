@@ -1,12 +1,41 @@
 package model;
 
 public class Via {
+    private final String[] TIPUS_ROCA = {"conglomerat", "granit", "calcaria"};
+    private final String[] ORIENTACIONS = {"S", "E", "O", "N", "SE", "NE", "NO", "SO"};
+    private final String[] ESTATS = {"tancada", "apte", "construccio"};
+    private final String[] ESTILS = {"gel", "esportiva", "classica"};
+
     private int llargada, id_dificultat, id_escola, id_sector, id_escalador;
     private String nom, orientacio, estat, tipus_roca, estil;
 
-    public Via(int llargada, int id_dificultat, int id_escalador, int id_escola, int id_sector,
-               String nom, String orientacio, String estat, String tipus_roca, String estil){
+    public Via(String nom, int llargada, int id_dificultat, String orientacio, String estat,  int id_escola, int id_sector,
+               String tipus_roca, int id_escalador, String estil) throws Exception {
 
+        //verificacions
+        if (!verificarDificultat(id_dificultat)){
+            throw new Exception("La dificultat de la via ha de ser d'1 entre 19");
+        }
+
+        if (!verificarSector(id_sector)){
+            throw new Exception("El sector ha de ser d'1 i 3");
+        }
+
+        if (!verificar(orientacio, ORIENTACIONS)){
+            throw new Exception("La orientacio ha de ser [N, E, O, S, NE, NO, SE, SO]");
+        }
+
+        if (!verificar(estat, ESTATS)){
+            throw new Exception("L'estat ha de ser [Tancada, Apte, Construccio]");
+        }
+
+
+
+        if (!verificar(estil, ESTILS)){
+            throw new Exception("Els estils ha de ser [Gel, Esportiva, Classica]");
+        }
+
+        //assignacions
         this.llargada = llargada;
         this.id_dificultat = id_dificultat;
         this.id_escalador = id_escalador;
@@ -100,5 +129,26 @@ public class Via {
 
     public void setEstil(String estil) {
         this.estil = estil;
+    }
+
+    //verificacions
+
+
+    private boolean verificarDificultat(int dificultat){
+        return dificultat > 0 && dificultat < 19;
+    }
+
+    private boolean verificar(String element, String[] array){
+        for (int i = 0; i <array.length; i++) {
+            if (element.equals(array[i])){
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private boolean verificarSector(int valor){
+        return valor > 0 && valor < 3;
     }
 }

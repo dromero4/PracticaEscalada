@@ -3,11 +3,20 @@ package model;
 public class Sector {
     private int num_vies, id_escola;
     private String nom, acces, dificultat, regulacions;
-    private float coordenades;
+    private String coordenades;
 
-    public Sector(int num_vies, int id_escola,
-                  String nom, String acces, String dificultat, String regulacions,
-                  float coordenades) {
+    public Sector(String nom, String coordenades, String acces, int num_vies, String dificultat, String regulacions, int id_escola) throws Exception {
+        if(!verificarCoordenadas(coordenades)){
+            throw new Exception("Les coordenades han de ser p.ex: [43, 52]");
+        }
+
+        if(!verificarEscola(id_escola)){
+            throw new Exception("Les escoles han de estar entre 1 i 3");
+        }
+
+        if(!verificarDificultat(dificultat)){
+            throw new Exception("La dificultat ha de ser: [alta, mitjana o baixa]");
+        }
 
         this.num_vies = num_vies;
         this.id_escola = id_escola;
@@ -43,7 +52,7 @@ public class Sector {
         return regulacions;
     }
 
-    public float getCoordenades() {
+    public String getCoordenades() {
         return coordenades;
     }
 
@@ -72,7 +81,30 @@ public class Sector {
         this.regulacions = regulacions;
     }
 
-    public void setCoordenades(float coordenades) {
+    public void setCoordenades(String coordenades) {
         this.coordenades = coordenades;
     }
+
+    //verificar coordenadas
+    private static boolean verificarCoordenadas(String coordenades){
+        return coordenades.matches("^\\d+, \\d+$");
+    }
+
+    //verificar dificultad
+    private static boolean verificarDificultat(String dificultat){
+        String[] dificultats = {"alta", "mitjana", "baixa"};
+
+        for (int i = 0; i < dificultats.length; i++) {
+            if (dificultat.equals(dificultats[i])) return true;
+        }
+
+        return false;
+    }
+
+    //verificar escola
+    private static boolean verificarEscola(int id_escola){
+        return id_escola > 0 && id_escola < 3; //Acceder a la base de datos y coger el length de la tabla mas adelante
+    }
+
+
 }
