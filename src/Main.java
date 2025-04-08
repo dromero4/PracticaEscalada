@@ -246,7 +246,7 @@ public class Main {
 
     }
 
-    //Funcions per modificar <----
+    //Funcions per modificar
     private static void modificarEscola(){}
     private static void modificarVia(){}
     private static void modificarSector(){}
@@ -339,14 +339,67 @@ public class Main {
         }
     }
 
-    //Funcions per esborrar
-    private static void eliminar_1_escola(){
-        //EscolaDAO escolaDAO = new EscolaDAO(connection);
-        //escolaDAO.eliminar();
+    //Funcions per eliminar 1
+    private static void eliminar_1_escola() {
+        System.out.print("Nom de l'escola a eliminar: ");
+        String nomEscola = scan.nextLine();
+
+        try {
+            EscolaDAO escolaDAO = new EscolaDAO(connection);
+            int id = escolaDAO.obtenirID(nomEscola);
+            Escola escola = escolaDAO.obtenir(id);
+            escola.setId(id);
+            escolaDAO.eliminar(escola);
+            View.successMessage();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
-    private static void eliminar_1_via(){}
-    private static void eliminar_1_sector(){}
-    private static void eliminar_1_escalador(){}
+    private static void eliminar_1_via() {
+        System.out.print("Nom de la via a eliminar: ");
+        String nomVia = scan.nextLine();
+
+        try {
+            ViaDAO viaDAO = new ViaDAO(connection);
+            int id = viaDAO.obtenirID(nomVia);
+            Via via = viaDAO.obtenir(id);
+            via.setId(id);
+            viaDAO.eliminar(via);
+            View.successMessage();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+    private static void eliminar_1_sector() {
+        System.out.print("Nom del sector a eliminar: ");
+        String nomEscola = scan.nextLine();
+
+        try {
+            SectorDAO sectorDAO = new SectorDAO(connection);
+            int id = sectorDAO.obtenirID(nomEscola);
+            Sector sector = sectorDAO.obtenir(id);
+            sector.setId(id);
+            sectorDAO.eliminar(sector);
+            View.successMessage();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+    private static void eliminar_1_escalador() {
+        System.out.print("Nick de l'escalador a eliminar: ");
+        String nickEscalador = scan.nextLine();
+
+        try {
+            EscaladorDAO escaladorDAO = new EscaladorDAO(connection);
+            int id = escaladorDAO.obtenirID(nickEscalador);
+            Escalador escalador = escaladorDAO.obtenir(id);
+            escalador.setId(id);
+            escaladorDAO.eliminar(escalador);
+            View.successMessage();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
 
     //Funcions per mostrar tot
     private static void mostrarEscola(){

@@ -42,9 +42,19 @@ public class ViaDAO implements DAO<Via, Integer>{ //IMPLEMENTS DAO /IMPORTANTE
     }
 
     @Override
-    public void eliminar(Via via) {
-        System.out.println("Not yet implemented");
+    public void eliminar(Via via) throws Exception {
+        String query = "DELETE FROM via WHERE id = ?";
 
+        try {
+            PreparedStatement stmt = connection.prepareStatement(query);
+            stmt.setInt(1, via.getId());
+
+            int rows = stmt.executeUpdate();
+
+            if(rows == 0) throw new Exception("No s'ha trobat cap via amb ID: " + via.getId());
+        } catch (Exception e){
+            throw new Exception(e.getMessage());
+        }
     }
 
     @Override

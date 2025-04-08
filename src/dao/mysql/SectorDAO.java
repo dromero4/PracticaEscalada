@@ -1,5 +1,6 @@
 package dao.mysql;
 
+import model.Escola;
 import model.Sector;
 import model.Via;
 
@@ -37,9 +38,38 @@ public class SectorDAO implements DAO<Sector, Integer>{
     }
 
     @Override
-    public void eliminar(Sector sector) {
-        System.out.println("Not yet implemented ");
+    public void eliminar(Sector sector) throws Exception {
+        String queryVia = "DELETE FROM via WHERE id_sector = ?";
+        String querySector = "DELETE FROM sector WHERE id = ?";
+
+        try {
+            // Primero, eliminamos las filas en 'via' que están relacionadas con este 'sector'
+            PreparedStatement stmtVia = connection.prepareStatement(queryVia);
+            stmtVia.setInt(1, sector.getId());
+            int rowsVia = stmtVia.executeUpdate();
+
+            // Verificamos si se han eliminado filas en 'via'
+            if (rowsVia > 0) {
+                System.out.println("S'han eliminat " + rowsVia + " vies relacionades amb aquest sector.");
+            } else {
+                System.out.println("No s'han trobat vies relacionades amb aquest sector.");
+            }
+
+            // Ahora, eliminamos el sector
+            PreparedStatement stmtSector = connection.prepareStatement(querySector);
+            stmtSector.setInt(1, sector.getId());
+            int rowsSector = stmtSector.executeUpdate();
+
+            if (rowsSector == 0) {
+                throw new Exception("No s'ha trobat cap sector amb ID: " + sector.getId());
+            } else {
+                System.out.println("Sector eliminat correctament.");
+            }
+        } catch (Exception e) {
+            throw new Exception("Error al eliminar el sector: " + e.getMessage(), e);
+        }
     }
+
 
     @Override
     public List<Sector> obtenirTots() {

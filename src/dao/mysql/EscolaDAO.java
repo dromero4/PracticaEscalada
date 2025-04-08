@@ -16,22 +16,34 @@ public class EscolaDAO implements DAO<Escola, Integer>{
     @Override
     public void inserir(Escola escola) {
         String query = "INSERT INTO escola (nom, poblacio, acces, num_vies, dificultat, regulacions) VALUES (?, ?, ?, ?, ?, ?)";
-        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+        try (PreparedStatement stmt = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             stmt.setString(1, escola.getNom());
             stmt.setString(2, escola.getPoblacio());
             stmt.setString(3, escola.getAcces());
             stmt.setInt(4, escola.getNum_vies());
             stmt.setString(5, escola.getDificultat());
             stmt.setString(6, escola.getRegulacions());
-            stmt.executeUpdate();
 
-            ResultSet rs = stmt.getGeneratedKeys();
-            if (rs.next()) escola.setId(rs.getInt(1));
+            // Ejecutar la inserción
+            int affectedRows = stmt.executeUpdate();
 
-        }catch (Exception e) {
-            throw new RuntimeException(e);
+            // Verificar si se generaron claves
+            if (affectedRows > 0) {
+                try (ResultSet rs = stmt.getGeneratedKeys()) {
+                    if (rs.next()) {
+                        // Obtener el ID generado y asignarlo a la escuela
+                        escola.setId(rs.getInt(1));
+                    }
+                }
+            } else {
+                throw new SQLException("La inserción no ha afectado ninguna fila.");
+            }
+
+        } catch (Exception e) {
+            throw new RuntimeException("Error al insertar la escuela: " + e.getMessage(), e);
         }
     }
+
 
     @Override
     public void modificar(Escola escola) {
@@ -40,9 +52,19 @@ public class EscolaDAO implements DAO<Escola, Integer>{
     }
 
     @Override
-    public void eliminar(Escola escola) {
+    public void eliminar(Escola escola) throws Exception {
+        String query = "DELETE FROM escola WHERE id = ?";
 
+        try {
+            PreparedStatement stmt = connection.prepareStatement(query);
+            stmt.setInt(1, escola.getId());
 
+            int rows = stmt.executeUpdate();
+
+            if(rows == 0) throw new Exception("No s'ha trobat cap escola amb ID: " + escola.getId());
+        } catch (Exception e){
+            throw new Exception(e.getMessage());
+        }
     }
 
     @Override
