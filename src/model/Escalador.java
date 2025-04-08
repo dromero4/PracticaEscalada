@@ -4,6 +4,8 @@ public class Escalador {
     private int edat;
     private String nom, nick, nivell, via_favorita, estil;
 
+    private int id;
+
     public Escalador(String nom, String nick, int edat, String nivell, String via_favorita, String estil) throws Exception {
         if(!verificarEstil(estil))  throw new Exception("L'estil ha de ser: [esportiva, gel, classica]");
         if(!verificarNivell(nivell)) throw new Exception("Nivells disponibles: \"4\",\"4+\",\"5\",\"5+\",\"6a\",\"6a+\",\"6b\",\"6b+\",\"6c\",\"6c+\",\"7a\",\"7a+\",\"7b\",\"7b+\",\"7c\",\"7c+\",\"8a\",\"8a+\",\"8b\"");
@@ -16,6 +18,14 @@ public class Escalador {
         this.estil = estil;
     }
 
+    //Primary key
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id){
+        this.id = id;
+    }
 
     public int getEdat() {
         return edat;

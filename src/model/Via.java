@@ -9,6 +9,8 @@ public class Via {
     private int llargada, id_dificultat, id_escola, id_sector, id_escalador;
     private String nom, orientacio, estat, tipus_roca, estil;
 
+    private int id;
+
     public Via(String nom, int llargada, int id_dificultat, String orientacio, String estat,  int id_escola, int id_sector,
                String tipus_roca, int id_escalador, String estil) throws Exception {
 
@@ -48,7 +50,13 @@ public class Via {
         this.estil = estil;
     }
 
+    public int getId() {
+        return id;
+    }
 
+    public void setId(int id){
+        this.id = id;
+    }
 
     public int getLlargada() {
         return llargada;

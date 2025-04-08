@@ -5,6 +5,8 @@ public class Sector {
     private String nom, acces, dificultat, regulacions;
     private String coordenades;
 
+    private int id;
+
     public Sector(String nom, String coordenades, String acces, int num_vies, String dificultat, String regulacions, int id_escola) throws Exception {
         if(!verificarCoordenadas(coordenades)){
             throw new Exception("Les coordenades han de ser p.ex: [43, 52]");
@@ -27,6 +29,13 @@ public class Sector {
         this.coordenades = coordenades;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id){
+        this.id = id;
+    }
 
     public int getNum_vies() {
         return num_vies;

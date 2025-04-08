@@ -4,6 +4,8 @@ public class Escola {
     private int num_vies;
     private String nom, poblacio, acces, dificultat, regulacions;
 
+    private int id;
+
     public Escola(String nom, String poblacio, String acces, int num_vies, String dificultat, String regulacions) throws Exception {
         if(!verificarDificultat(dificultat)){
             throw new Exception("El valor de dificultat ha de ser: [baixa, mitjana, alta]");
@@ -15,7 +17,13 @@ public class Escola {
         this.dificultat = dificultat;
         this.regulacions = regulacions;
     }
+    public int getId() {
+        return id;
+    }
 
+    public void setId(int id){
+        this.id = id;
+    }
 
     public int getNum_vies() {
         return num_vies;
