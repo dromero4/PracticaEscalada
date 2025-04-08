@@ -71,7 +71,7 @@ public class Escola {
         String[] dificultats = {"baixa", "mitjana", "alta"};
 
         for (int i = 0; i < dificultats.length; i++) {
-            if (dificultat.equals(dificultats[i])){
+            if (dificultat.toLowerCase().equals(dificultats[i])){
                 return true;
             }
         }

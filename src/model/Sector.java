@@ -87,7 +87,8 @@ public class Sector {
 
     //verificar coordenadas
     private static boolean verificarCoordenadas(String coordenades){
-        return coordenades.matches("^\\d+, \\d+$");
+        return coordenades.matches("^-?\\d+(\\.\\d+)?,-?\\d+(\\.\\d+)?$");
+
     }
 
     //verificar dificultad
@@ -103,7 +104,7 @@ public class Sector {
 
     //verificar escola
     private static boolean verificarEscola(int id_escola){
-        return id_escola > 0 && id_escola < 3; //Acceder a la base de datos y coger el length de la tabla mas adelante
+        return id_escola > 0 && id_escola <= 3; //Acceder a la base de datos y coger el length de la tabla mas adelante
     }
 
     @Override

@@ -2,9 +2,9 @@ package model;
 
 public class Via {
     private final String[] TIPUS_ROCA = {"conglomerat", "granit", "calcaria"};
-    private final String[] ORIENTACIONS = {"S", "E", "O", "N", "SE", "NE", "NO", "SO"};
-    private final String[] ESTATS = {"tancada", "apte", "construccio"};
-    private final String[] ESTILS = {"gel", "esportiva", "classica"};
+    private final String[] ORIENTACIONS = {"s", "e", "o", "n", "se", "ne", "no", "so"};
+    private final String[] ESTATS = {"tancada", "apte", "construccio", "construcció"};
+    private final String[] ESTILS = {"gel", "esportiva", "classica", "clàssica"};
 
     private int llargada, id_dificultat, id_escola, id_sector, id_escalador;
     private String nom, orientacio, estat, tipus_roca, estil;
@@ -18,7 +18,7 @@ public class Via {
         }
 
         if (!verificarSector(id_sector)){
-            throw new Exception("El sector ha de ser d'1 i 3");
+            throw new Exception("El sector ha de ser d'entre 1 i 3");
         }
 
         if (!verificar(orientacio, ORIENTACIONS)){
@@ -133,12 +133,12 @@ public class Via {
 
     //verificacions
     private boolean verificarDificultat(int dificultat){
-        return dificultat > 0 && dificultat < 19;
+        return dificultat > 0 && dificultat <= 19;
     }
 
     private boolean verificar(String element, String[] array){
         for (int i = 0; i <array.length; i++) {
-            if (element.equals(array[i])){
+            if (element.toLowerCase().equals(array[i])){
                 return true;
             }
         }
@@ -147,11 +147,11 @@ public class Via {
     }
 
     private boolean verificarSector(int valor){
-        return valor > 0 && valor < 3;
+        return valor > 0 && valor <= 3;
     }
     @Override
     public String toString() {
-        return "Nom: " + getNom() + ":\n" +
+        return "Nom: " + getNom() + "\n" +
                 "Llargada: " + getLlargada() + "\n" +
                 "Dificultat: " + getId_dificultat() + "\n" +
                 "Orientació: " + getOrientacio() + "\n" +

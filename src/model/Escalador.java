@@ -69,10 +69,10 @@ public class Escalador {
     //verificar estil
     //esportiva, gel, classica
     private static boolean verificarEstil(String estil){
-        String[] estils = {"esportiva", "gel", "classica"};
+        String[] estils = {"esportiva", "gel", "classica", "clàssica"};
 
         for (int i = 0; i < estils.length; i++) {
-            if (estil.equals(estils[i])) return true;
+            if (estil.toLowerCase().equals(estils[i])) return true;
         }
 
         return false;
