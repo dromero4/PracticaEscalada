@@ -89,4 +89,15 @@ public class Escalador {
 
         return false;
     }
+
+    @Override
+    public String toString() {
+        return "Nom: " + getNom() + ":\n" +
+                "Nick: " + getNick() + "\n" +
+                "Edat: " + getEdat() + "\n" +
+                "Nivell: " + getNivell() + "\n" +
+                "Via favorita: " + getVia_favorita() + "\n" +
+                "Estil: " + getEstil() + "\n" ;
+
+    }
 }

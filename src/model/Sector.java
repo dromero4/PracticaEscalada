@@ -106,5 +106,15 @@ public class Sector {
         return id_escola > 0 && id_escola < 3; //Acceder a la base de datos y coger el length de la tabla mas adelante
     }
 
+    @Override
+    public String toString() {
+        return "Sector " + getNom() + ":\n" +
+                "Coordenades: " + getCoordenades() + " \n" +
+                "Accés: " + getAcces() + " \n" +
+                "Numero de vies: " + getNum_vies() + " \n" +
+                "Dificultat: " + getDificultat() + " \n" +
+                "Regulacions: " + getRegulacions() + " \n" +
+                "id_escola: " + getId_escola();
+    }
 
 }

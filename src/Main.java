@@ -264,9 +264,34 @@ public class Main {
             System.out.println(error.getMessage());
         }
     }
-    private static void mostrarVia(){}
-    private static void mostrarSector(){}
-    private static void mostrarEscalador(){}
+    private static void mostrarVia(){
+        try {
+            ViaDAO viaDAO = new ViaDAO(connection);
+            List<Via> vies = viaDAO.obtenirTots();
 
+            vies.forEach(System.out::println);
+        } catch (Exception error){
+            System.out.println(error.getMessage());
+        }
+    }
+    private static void mostrarSector(){
+        try {
+            SectorDAO sectorDAO = new SectorDAO(connection);
+            List<Sector> sectors = sectorDAO.obtenirTots();
 
+            sectors.forEach(System.out::println);
+        } catch (Exception error){
+            System.out.println(error.getMessage());
+        }
+    }
+    private static void mostrarEscalador(){
+        try {
+            EscaladorDAO escaladorDAO = new EscaladorDAO(connection);
+            List<Escalador> escaladors = escaladorDAO.obtenirTots();
+
+            escaladors.forEach(System.out::println);
+        } catch (Exception error){
+            System.out.println(error.getMessage());
+        }
+    }
 }

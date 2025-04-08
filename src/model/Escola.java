@@ -80,7 +80,13 @@ public class Escola {
     }
 
     //toString
-
-
-
+    @Override
+    public String toString() {
+        return "Escola " + getNom() + ":\n" +
+                "Població: " + getPoblacio() + " \n" +
+                "Accés: " + getAcces() + " \n" +
+                "Numero de vies: " + getNum_vies() + " \n" +
+                "Dificultat: " + getDificultat() + " \n" +
+                "Regulacions: " + getRegulacions() + " \n";
+    }
 }

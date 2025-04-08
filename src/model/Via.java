@@ -132,8 +132,6 @@ public class Via {
     }
 
     //verificacions
-
-
     private boolean verificarDificultat(int dificultat){
         return dificultat > 0 && dificultat < 19;
     }
@@ -150,5 +148,19 @@ public class Via {
 
     private boolean verificarSector(int valor){
         return valor > 0 && valor < 3;
+    }
+    @Override
+    public String toString() {
+        return "Nom: " + getNom() + ":\n" +
+                "Llargada: " + getLlargada() + "\n" +
+                "Dificultat: " + getId_dificultat() + "\n" +
+                "Orientació: " + getOrientacio() + "\n" +
+                "Estat: " + getEstat() + "\n" +
+                "Escola ID: " + getId_escola() + "\n" +
+                "Sector ID: " + getId_sector() + "\n" +
+                "Tipus de roca: " + getTipus_roca() + "\n" +
+                "Estil: " + getEstat() + "\n" +
+                "Escalador ID: " + getId_escalador() + "\n";
+
     }
 }
