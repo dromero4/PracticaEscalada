@@ -102,7 +102,7 @@ public class Escalador {
 
     @Override
     public String toString() {
-        return "Nom: " + getNom() + ":\n" +
+        return "Nom: " + getNom() + "\n" +
                 "Nick: " + getNick() + "\n" +
                 "Edat: " + getEdat() + "\n" +
                 "Nivell: " + getNivell() + "\n" +

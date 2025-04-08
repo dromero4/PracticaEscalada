@@ -1,5 +1,6 @@
 package dao.mysql;
 
+import model.Escola;
 import model.Via;
 
 import java.sql.*;
@@ -50,7 +51,8 @@ public class ViaDAO implements DAO<Via, Integer>{ //IMPLEMENTS DAO /IMPORTANTE
     public List<Via> obtenirTots() {
         String query = "SELECT * FROM via";
         List<Via> vias = new ArrayList<>();
-        try (Statement stmt = connection.createStatement(); ResultSet rs = stmt.executeQuery(query)) {
+        try (PreparedStatement stmt = connection.prepareStatement(query);
+             ResultSet rs = stmt.executeQuery(query)) {
             while (rs.next()) {
                 Via via = new Via(
                         rs.getString("nom"),
@@ -74,8 +76,55 @@ public class ViaDAO implements DAO<Via, Integer>{ //IMPLEMENTS DAO /IMPORTANTE
 
     @Override
     public Via obtenir(Integer id) {
-        System.out.println("Not yet implemented");
+        String query = "SELECT * FROM via WHERE id = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            // Establecer el parámetro `id` en el PreparedStatement
+            stmt.setInt(1, id);
 
-        return null;
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return new Via(
+                            rs.getString("nom"),
+                            rs.getInt("llargada"),
+                            rs.getInt("id_dificultat"),
+                            rs.getString("orientacio"),
+                            rs.getString("estat"),
+                            rs.getInt("id_escola"),
+                            rs.getInt("id_sector"),
+                            rs.getString("tipus_roca"),
+                            rs.getInt("id_escalador"),
+                            rs.getString("estil")
+                    );
+
+                } else {
+                    throw new RuntimeException("No s'ha trobat cap via amb l'ID: " + id);
+                }
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("Error al obtener la via con ID " + id, e);
+        }
+    }
+
+    @Override
+    public int obtenirID(String nom) throws Exception {
+        String query = "SELECT id FROM via WHERE nom = ?";
+
+        try {
+            PreparedStatement stmt = connection.prepareStatement(query);
+            stmt.setString(1, nom);
+
+            try {
+                ResultSet rs = stmt.executeQuery();
+                if (rs.next()) {
+                    return rs.getInt("id");
+                } else {
+                    throw new RuntimeException("No s'ha trobat cap escola amb el nom '" + nom + "'.");
+                }
+            } catch (SQLException e){
+                throw new RuntimeException(e);
+            }
+        } catch (Exception e){
+            throw new Exception(e.getMessage());
+        }
     }
 }

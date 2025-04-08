@@ -24,7 +24,11 @@ public class EscolaDAO implements DAO<Escola, Integer>{
             stmt.setString(5, escola.getDificultat());
             stmt.setString(6, escola.getRegulacions());
             stmt.executeUpdate();
-        } catch (SQLException e) {
+
+            ResultSet rs = stmt.getGeneratedKeys();
+            if (rs.next()) escola.setId(rs.getInt(1));
+
+        }catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
@@ -37,7 +41,7 @@ public class EscolaDAO implements DAO<Escola, Integer>{
 
     @Override
     public void eliminar(Escola escola) {
-        System.out.println("Not yet implemented");
+
 
     }
 
@@ -64,9 +68,51 @@ public class EscolaDAO implements DAO<Escola, Integer>{
     }
 
     @Override
-    public Escola obtenir(Integer id) {
-        System.out.println("Not yet implemented");
+    public int obtenirID(String nom) {
+        String query = "SELECT id FROM escola WHERE nom = ?";
+        try {
+            PreparedStatement stmt = connection.prepareStatement(query);
+            stmt.setString(1, nom);
 
-        return null;
+            try {
+                ResultSet rs = stmt.executeQuery() ;
+                if (rs.next()) {
+                    return rs.getInt("id");
+                } else {
+                    throw new RuntimeException("No s'ha trobat cap escola amb el nom '" + nom + "'.");
+                }
+            } catch (SQLException e){
+                throw new RuntimeException(e);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
+
+    @Override
+    public Escola obtenir(Integer id) {
+        String query = "SELECT * FROM escola WHERE id = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            // Establecer el parámetro `id` en el PreparedStatement
+            stmt.setInt(1, id);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return new Escola(
+                            rs.getString("nom"),
+                            rs.getString("poblacio"),
+                            rs.getString("acces"),
+                            rs.getInt("num_vies"),
+                            rs.getString("dificultat"),
+                            rs.getString("regulacions")
+                    );
+                } else {
+                    throw new RuntimeException("No s'ha trobat cap escola amb l'ID: " + id);
+                }
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("Error al obtener la escola con ID " + id, e);
+        }
+    }
+
 }

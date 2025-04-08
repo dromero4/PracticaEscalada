@@ -33,22 +33,25 @@ public class Main {
                 case 1: //Escoles
                     View.showMenuCRUD("Escola");
                     int opcioCRUD_Escola = scan.nextInt();
+                    scan.nextLine();
                     switch (opcioCRUD_Escola){
                         case 1 -> afegirEscola();
                         case 2 -> modificarEscola();
                         case 3 -> mostrar_1_Escola();
                         case 4 -> mostrarEscola();
+                        case 5 -> eliminar_1_escola();
                     }
                     break;
                 case 2:
                     View.showMenuCRUD("Vies");
                     int opcioCRUD_Via = scan.nextInt();
-
+                    scan.nextLine();
                     switch (opcioCRUD_Via){
                         case 1 -> afegirVia();
                         case 2 -> modificarVia();
                         case 3 -> mostrar_1_Via();
                         case 4 -> mostrarVia();
+                        case 5 -> eliminar_1_via();
                     }
                     break;
                 case 3:
@@ -61,6 +64,7 @@ public class Main {
                         case 2 -> modificarSector();
                         case 3 -> mostrar_1_Sector();
                         case 4 -> mostrarSector();
+                        case 5 -> eliminar_1_sector();
                     }
                     break;
                 case 4:
@@ -73,6 +77,7 @@ public class Main {
                         case 2 -> modificarEscalador();
                         case 3 -> mostrar_1_Escalador();
                         case 4 -> mostrarEscalador();
+                        case 5 -> eliminar_1_escalador();
                     }
                     break;
             }
@@ -248,10 +253,100 @@ public class Main {
     private static void modificarEscalador(){}
 
     //Funcions per mostrar 1
-    private static void mostrar_1_Escola(){}
-    private static void mostrar_1_Via(){}
-    private static void mostrar_1_Sector(){}
-    private static void mostrar_1_Escalador(){}
+    private static void mostrar_1_Escola(){
+        //Primero necesitamos el nombre de la escuela
+        System.out.print("Quina escola vols mostrar? ");
+        String nom_escola = scan.nextLine();
+
+        if (nom_escola.isEmpty()) {
+            System.out.println("El nom de l'escola no pot estar buit.");
+            return;  // Salir si el nombre está vacío
+        }
+
+        //Luego necesitamos el ID
+        try{
+            EscolaDAO escolaDAO = new EscolaDAO(connection);
+            int id = escolaDAO.obtenirID(nom_escola);
+
+            Escola escola = escolaDAO.obtenir(id); // <---
+
+            System.out.println(escola);
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+
+    }
+    private static void mostrar_1_Via(){
+        System.out.print("Quina via vols mostrar? ");
+        String nom_via = scan.nextLine();
+
+        if (nom_via.isEmpty()){
+            System.out.println("El nom de la via no pot ser buit");
+            return;
+        };
+
+        try {
+            ViaDAO viaDAO = new ViaDAO(connection);
+
+            int id = viaDAO.obtenirID(nom_via);
+
+            Via via = viaDAO.obtenir(id);
+            System.out.println(via);
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
+    private static void mostrar_1_Sector(){
+        System.out.print("Quin sector vols mostrar? ");
+        String nom_sector = scan.nextLine();
+
+        if (nom_sector.isEmpty()){
+            System.out.println("El nom del sector no pot ser buit");
+            return;
+        };
+
+        try {
+            SectorDAO sectorDAO = new SectorDAO(connection);
+
+            int id = sectorDAO.obtenirID(nom_sector);
+
+            System.out.println("ID: " + id);
+
+            Sector sector = sectorDAO.obtenir(id);
+            System.out.println(sector);
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
+    private static void mostrar_1_Escalador(){
+        System.out.print("Quin escalador vols mostrar? ");
+        String nick_escalador = scan.nextLine();
+
+        if (nick_escalador.isEmpty()){
+            System.out.println("El nom de l'escalador no pot ser buit");
+            return;
+        };
+
+        try {
+            EscaladorDAO escalador = new EscaladorDAO(connection);
+
+            int id = escalador.obtenirID(nick_escalador);
+
+            Escalador escalador_1 = escalador.obtenir(id);
+            System.out.println(escalador_1);
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
+
+    //Funcions per esborrar
+    private static void eliminar_1_escola(){
+        //EscolaDAO escolaDAO = new EscolaDAO(connection);
+        //escolaDAO.eliminar();
+    }
+    private static void eliminar_1_via(){}
+    private static void eliminar_1_sector(){}
+    private static void eliminar_1_escalador(){}
 
     //Funcions per mostrar tot
     private static void mostrarEscola(){
