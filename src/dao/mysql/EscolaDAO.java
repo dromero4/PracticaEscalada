@@ -47,9 +47,27 @@ public class EscolaDAO implements DAO<Escola, Integer>{
 
     @Override
     public void modificar(Escola escola) {
-        System.out.println("Not yet implemented");
+        String sql = "UPDATE escola SET nom = ?, poblacio = ?, acces = ?, num_vies = ?, dificultat = ?, regulacions = ? WHERE id = ?";
 
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, escola.getNom());
+            ps.setString(2, escola.getPoblacio());
+            ps.setString(3, escola.getAcces());
+            ps.setInt(4, escola.getNum_vies());
+            ps.setString(5, escola.getDificultat());
+            ps.setString(6, escola.getRegulacions());
+            ps.setInt(7, escola.getId());
+
+            int filesAfectades = ps.executeUpdate();
+
+            if (filesAfectades == 0) {
+                System.out.println("No s'ha modificat cap registre. Comprova que l'ID sigui correcte.");
+            }
+        } catch (SQLException e) {
+            System.out.println("Error al modificar l'escola: " + e.getMessage());
+        }
     }
+
 
     @Override
     public void eliminar(Escola escola) throws Exception {

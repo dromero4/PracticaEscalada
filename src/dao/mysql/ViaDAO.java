@@ -37,8 +37,29 @@ public class ViaDAO implements DAO<Via, Integer>{ //IMPLEMENTS DAO /IMPORTANTE
 
     @Override
     public void modificar(Via via) {
-        System.out.println("Not yet implemented");
+        String sql = "UPDATE via SET nom = ?, llargada = ?, id_dificultat = ?, orientacio = ?, estat = ?, id_escola = ?, id_sector = ?, tipus_roca = ?, id_escalador = ?, estil = ? WHERE id = ?";
 
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, via.getNom());
+            ps.setInt(2, via.getLlargada());
+            ps.setInt(3, via.getId_dificultat());
+            ps.setString(4, via.getOrientacio());
+            ps.setString(5, via.getEstat());
+            ps.setInt(6, via.getId_escola());
+            ps.setInt(7, via.getId_sector());
+            ps.setString(8, via.getTipus_roca());
+            ps.setInt(9, via.getId_escalador());
+            ps.setString(10, via.getEstil());
+            ps.setInt(11, via.getId());
+
+            int filesAfectades = ps.executeUpdate();
+
+            if (filesAfectades == 0) {
+                System.out.println("No s'ha modificat cap registre. Comprova que el nom sigui correcte.");
+            }
+        } catch (SQLException e) {
+            System.out.println("Error al modificar la via: " + e.getMessage());
+        }
     }
 
     @Override
@@ -136,5 +157,113 @@ public class ViaDAO implements DAO<Via, Integer>{ //IMPLEMENTS DAO /IMPORTANTE
         } catch (Exception e){
             throw new Exception(e.getMessage());
         }
+    }
+
+    public List<Via> viesDisponibles(String nom){
+        List<Via> vies = new ArrayList<>();
+        String query = "SELECT v.* " +
+                "FROM via v " +
+                "JOIN escola e ON v.id_escola = e.id " +
+                "WHERE v.estat = 'Apte' AND e.nom = ?";
+
+        try {
+
+                PreparedStatement stmt = connection.prepareStatement(query);
+
+                stmt.setString(1, nom);
+                ResultSet rs = stmt.executeQuery();
+
+                while (rs.next()){
+                    Via via = new Via(
+                            rs.getString("nom"),
+                            rs.getInt("llargada"),
+                            rs.getInt("id_dificultat"),
+                            rs.getString("orientacio"),
+                            rs.getString("estat"),
+                            rs.getInt("id_escola"),
+                            rs.getInt("id_sector"),
+                            rs.getString("tipus_roca"),
+                            rs.getInt("id_escalador"),
+                            rs.getString("estil")
+                    );
+                    vies.add(via);
+                }
+
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        return vies;
+    }
+    public List<Via> viesPerRang(String primer, String segon){
+        List<Via> vies = new ArrayList<>();
+        String query = "SELECT v.* " +
+                "FROM via v " +
+                "JOIN dificultat d ON v.id_dificultat = d.id " +
+                "WHERE d.grau BETWEEN ? AND ?";
+
+        try{
+            PreparedStatement stmt = connection.prepareStatement(query);
+            stmt.setString(1, primer);
+            stmt.setString(2, segon);
+
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()){
+                Via via = new Via(
+                        rs.getString("nom"),
+                        rs.getInt("llargada"),
+                        rs.getInt("id_dificultat"),
+                        rs.getString("orientacio"),
+                        rs.getString("estat"),
+                        rs.getInt("id_escola"),
+                        rs.getInt("id_sector"),
+                        rs.getString("tipus_roca"),
+                        rs.getInt("id_escalador"),
+                        rs.getString("estil")
+                );
+                vies.add(via);
+            }
+        } catch (Exception e){
+            throw new RuntimeException(e);
+        }
+
+        return vies;
+    }
+    public List<Via> viesPerEstat(String estat){
+        List<Via> vies = new ArrayList<>();
+        String query = "SELECT v.*, s.nom AS sector, e.nom AS escola\n" +
+                "FROM via v\n" +
+                "JOIN sector s ON v.id_sector = s.id\n" +
+                "JOIN escola e ON v.id_escola = e.id\n" +
+                "WHERE v.estat = ?\n";
+
+        try{
+            PreparedStatement stmt = connection.prepareStatement(query);
+            stmt.setString(1, estat);
+
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()){
+                Via via = new Via(
+                        rs.getString("nom"),
+                        rs.getInt("llargada"),
+                        rs.getInt("id_dificultat"),
+                        rs.getString("orientacio"),
+                        rs.getString("estat"),
+                        rs.getInt("id_escola"),
+                        rs.getInt("id_sector"),
+                        rs.getString("tipus_roca"),
+                        rs.getInt("id_escalador"),
+                        rs.getString("estil")
+                );
+                vies.add(via);
+            }
+        } catch (Exception e){
+            throw new RuntimeException(e);
+        }
+
+        return vies;
     }
 }

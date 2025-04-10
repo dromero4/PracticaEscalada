@@ -6,9 +6,6 @@ import model.Via;
 import view.View;
 
 import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.List;
 import java.util.Scanner;
 
@@ -30,7 +27,22 @@ public class Main {
             View.showMenu();
             opcio = scan.nextInt();
             switch (opcio){
-                case 1: //Escoles
+                case 1: //Casos predefinits
+                    View.showCasosPredefinits();
+                    int opcioCasos = scan.nextInt();
+                    scan.nextLine();
+                    switch (opcioCasos){
+                        case 1 -> viesDisponibles();
+                        case 2 -> viesPerRang();
+                        case 3 -> viesPerEstat();
+                        //case 4 -> escolesAmbRestriccions();
+                        //case 5 -> sectorsVies();
+                        //case 6 -> escaladorsMaxNivell();
+                        //case 7 -> viesAptesRecentment();
+                        //case 8 -> viesMesLlarguesEscola();
+                    }
+                    break;
+                case 2: //Escoles
                     View.showMenuCRUD("Escola");
                     int opcioCRUD_Escola = scan.nextInt();
                     scan.nextLine();
@@ -42,7 +54,7 @@ public class Main {
                         case 5 -> eliminar_1_escola();
                     }
                     break;
-                case 2:
+                case 3:
                     View.showMenuCRUD("Vies");
                     int opcioCRUD_Via = scan.nextInt();
                     scan.nextLine();
@@ -54,7 +66,7 @@ public class Main {
                         case 5 -> eliminar_1_via();
                     }
                     break;
-                case 3:
+                case 4:
                     View.showMenuCRUD("Sector");
                     int opcioCRUD_Sector = scan.nextInt();
                     scan.nextLine();
@@ -67,7 +79,7 @@ public class Main {
                         case 5 -> eliminar_1_sector();
                     }
                     break;
-                case 4:
+                case 5:
                     View.showMenuCRUD("Escalador");
                     int opcioCRUD_Escalador = scan.nextInt();
                     scan.nextLine();
@@ -247,10 +259,238 @@ public class Main {
     }
 
     //Funcions per modificar
-    private static void modificarEscola(){}
-    private static void modificarVia(){}
-    private static void modificarSector(){}
-    private static void modificarEscalador(){}
+    private static void modificarEscola() {
+        Scanner scan = new Scanner(System.in);
+
+        try {
+            System.out.print("Introdueix el nom de l'escola a modificar: ");
+            String nomInput = scan.nextLine();
+
+            EscolaDAO escolaDAO = new EscolaDAO(connection);
+            int id = escolaDAO.obtenirID(nomInput); // Obtenim l'ID a partir del nom
+
+            Escola escolaExist = escolaDAO.obtenir(id); // Obtenim l'objecte complet
+
+            if (escolaExist == null) {
+                System.out.println("No s'ha trobat cap escola amb aquest nom.");
+                return;
+            }
+
+            escolaExist.setId(id); // Per si de cas no estava ja assignat
+
+            System.out.println("Deixa en blanc si no vols modificar el camp.");
+
+            System.out.print("Nom actual (" + escolaExist.getNom() + "): ");
+            String nouNom = scan.nextLine();
+            if (!nouNom.isEmpty()) escolaExist.setNom(nouNom);
+
+            System.out.print("Població actual (" + escolaExist.getPoblacio() + "): ");
+            String novaPoblacio = scan.nextLine();
+            if (!novaPoblacio.isEmpty()) escolaExist.setPoblacio(novaPoblacio);
+
+            System.out.print("Accés actual (" + escolaExist.getAcces() + "): ");
+            String nouAcces = scan.nextLine();
+            if (!nouAcces.isEmpty()) escolaExist.setAcces(nouAcces);
+
+            System.out.print("Nombre de vies actual (" + escolaExist.getNum_vies() + "): ");
+            String numViesInput = scan.nextLine();
+            if (!numViesInput.isEmpty()) escolaExist.setNum_vies(Integer.parseInt(numViesInput));
+
+            System.out.print("Dificultat actual (" + escolaExist.getDificultat() + "): ");
+            String novaDificultat = scan.nextLine();
+            if (!novaDificultat.isEmpty()) escolaExist.setDificultat(novaDificultat);
+
+            System.out.print("Regulacions actuals (" + escolaExist.getRegulacions() + "): ");
+            String novesRegulacions = scan.nextLine();
+            if (!novesRegulacions.isEmpty()) escolaExist.setRegulacions(novesRegulacions);
+
+            // Cridem al DAO per fer el update
+            escolaDAO.modificar(escolaExist);
+
+            View.successMessage();
+        } catch (Exception e) {
+            System.out.println("Error al modificar l'escola: " + e.getMessage());
+        }
+    }
+    private static void modificarVia(){
+        Scanner scan = new Scanner(System.in);
+
+        try {
+            System.out.print("Introdueix el nom de la via a modificar: ");
+            String nomInput = scan.nextLine();
+
+            ViaDAO viaDAO = new ViaDAO(connection);
+            int id = viaDAO.obtenirID(nomInput); // Obtenim l'ID a partir del nom
+
+            Via viaExists = viaDAO.obtenir(id); // Obtenim l'objecte complet
+
+            if (viaExists == null) {
+                System.out.println("No s'ha trobat cap escola amb aquest nom.");
+                return;
+            }
+
+            viaExists.setId(id); // Per si de cas no estava ja assignat
+
+            System.out.println("Deixa en blanc si no vols modificar el camp.");
+
+            System.out.print("Nom actual (" + viaExists.getNom() + "): ");
+            String nouNom = scan.nextLine();
+            if (!nouNom.isEmpty()) viaExists.setNom(nouNom);
+
+            System.out.print("Llargada actual (" + viaExists.getLlargada() + "): ");
+            String novaLlargada = scan.nextLine();
+            if (!novaLlargada.isEmpty()) viaExists.setLlargada(Integer.parseInt(novaLlargada));
+
+            System.out.print("Dificultat actual (" + viaExists.getId_dificultat() + "): ");
+            String novaDificultat = scan.nextLine();
+            if (!novaDificultat.isEmpty()) viaExists.setId_dificultat(Integer.parseInt(novaDificultat));
+
+            System.out.print("Orientació actual (" + viaExists.getOrientacio() + "): ");
+            String novaOrientacio = scan.nextLine();
+            if (!novaOrientacio.isEmpty()) viaExists.setOrientacio(novaOrientacio);
+
+            System.out.print("Estat actual (" + viaExists.getEstat() + "): ");
+            String nouEstat = scan.nextLine();
+            if (!nouEstat.isEmpty()) viaExists.setEstat(nouEstat);
+
+            System.out.print("Escola ID actual (" + viaExists.getId_escola() + "): ");
+            String novaEscola = scan.nextLine();
+            if (!novaEscola.isEmpty()) viaExists.setId_escola(Integer.parseInt(novaEscola));
+
+            System.out.print("Sector ID actual (" + viaExists.getId_sector() + "): ");
+            String nouSector = scan.nextLine();
+            if (!nouSector.isEmpty()) viaExists.setId_sector(Integer.parseInt(nouSector));
+
+            System.out.print("Tipus de roca actual (" + viaExists.getTipus_roca() + "): ");
+            String novaRoca = scan.nextLine();
+            if (!novaRoca.isEmpty()) viaExists.setTipus_roca(novaRoca);
+
+            System.out.print("Escalador ID actual (" + viaExists.getId_dificultat() + "): ");
+            String nouEscalador = scan.nextLine();
+            if (!nouEscalador.isEmpty()) viaExists.setId_escalador(Integer.parseInt(nouEscalador));
+
+            System.out.print("Estil actual (" + viaExists.getEstil() + "): ");
+            String nouEstil = scan.nextLine();
+            if (!nouEstil.isEmpty()) viaExists.setEstil(nouEstil);
+
+            // Cridem al DAO per fer el update
+            viaDAO.modificar(viaExists);
+
+            View.successMessage();
+        } catch (Exception e) {
+            System.out.println("Error al modificar la via: " + e.getMessage());
+        }
+    }
+    private static void modificarSector(){
+        Scanner scan = new Scanner(System.in);
+
+        try {
+            System.out.print("Introdueix el nom del sector a modificar: ");
+            String nomInput = scan.nextLine();
+
+            SectorDAO sectorDAO = new SectorDAO(connection);
+            int id = sectorDAO.obtenirID(nomInput); // Obtenim l'ID a partir del nom
+
+            Sector sectorExists = sectorDAO.obtenir(id); // Obtenim l'objecte complet
+
+            if (sectorExists == null) {
+                System.out.println("No s'ha trobat cap escola amb aquest nom.");
+                return;
+            }
+
+            sectorExists.setId(id); // Per si de cas no estava ja assignat
+
+            System.out.println("Deixa en blanc si no vols modificar el camp.");
+
+            System.out.print("Nom actual (" + sectorExists.getNom() + "): ");
+            String nouNom = scan.nextLine();
+            if (!nouNom.isEmpty()) sectorExists.setNom(nouNom);
+
+            System.out.print("Coordenades actuals (" + sectorExists.getCoordenades() + "): ");
+            String novesCoordenades = scan.nextLine();
+            if (!novesCoordenades.isEmpty()) sectorExists.setCoordenades(novesCoordenades);
+
+            System.out.print("Accés actual (" + sectorExists.getAcces() + "): ");
+            String nouAcces = scan.nextLine();
+            if (!nouAcces.isEmpty()) sectorExists.setAcces(nouAcces);
+
+            System.out.print("Nombre de vies actual (" + sectorExists.getNum_vies() + "): ");
+            String numViesInput = scan.nextLine();
+            if (!numViesInput.isEmpty()) sectorExists.setNum_vies(Integer.parseInt(numViesInput));
+
+            System.out.print("Dificultat actual (" + sectorExists.getDificultat() + "): ");
+            String novaDificultat = scan.nextLine();
+            if (!novaDificultat.isEmpty()) sectorExists.setDificultat(novaDificultat);
+
+            System.out.print("Regulacions actuals (" + sectorExists.getRegulacions() + "): ");
+            String novesRegulacions = scan.nextLine();
+            if (!novesRegulacions.isEmpty()) sectorExists.setRegulacions(novesRegulacions);
+
+            System.out.print("Escola ID actual (" + sectorExists.getId_escola() + "): ");
+            String novaEscola = scan.nextLine();
+            if (!novaEscola.isEmpty()) sectorExists.setRegulacions(novaEscola);
+
+            // Cridem al DAO per fer el update
+            sectorDAO.modificar(sectorExists);
+
+            View.successMessage();
+        } catch (Exception e) {
+            System.out.println("Error al modificar el sector: " + e.getMessage());
+        }
+    }
+    private static void modificarEscalador(){
+        Scanner scan = new Scanner(System.in);
+
+        try {
+            System.out.print("Introdueix el nick de l'escalador a modificar: ");
+            String nomInput = scan.nextLine();
+
+            EscaladorDAO escaladorDAO = new EscaladorDAO(connection);
+            int id = escaladorDAO.obtenirID(nomInput); // Obtenim l'ID a partir del nom
+
+            Escalador escaladorExists = escaladorDAO.obtenir(id); // Obtenim l'objecte complet
+
+            if (escaladorExists == null) {
+                System.out.println("No s'ha trobat cap escalador amb aquest nick.");
+                return;
+            }
+
+            escaladorExists.setId(id); // Per si de cas no estava ja assignat
+
+            System.out.println("Deixa en blanc si no vols modificar el camp.");
+
+            System.out.print("Nom actual (" + escaladorExists.getNom() + "): ");
+            String nouNom = scan.nextLine();
+            if (!nouNom.isEmpty()) escaladorExists.setNom(nouNom);
+
+            System.out.print("Nick actual (" + escaladorExists.getNick() + "): ");
+            String nouNick = scan.nextLine();
+            if (!nouNick.isEmpty()) escaladorExists.setNick(nouNick);
+
+            System.out.print("Edat actual (" + escaladorExists.getEdat() + "): ");
+            String novaEdat = scan.nextLine();
+            if (!novaEdat.isEmpty()) escaladorExists.setEdat(Integer.parseInt(novaEdat));
+
+            System.out.print("Nivell actual (" + escaladorExists.getNivell() + "): ");
+            String nouNivell = scan.nextLine();
+            if (!nouNivell.isEmpty()) escaladorExists.setNivell(nouNivell);
+
+            System.out.print("Via favorita actual (" + escaladorExists.getVia_favorita() + "): ");
+            String novaVia = scan.nextLine();
+            if (!novaVia.isEmpty()) escaladorExists.setVia_favorita(novaVia);
+
+            System.out.print("Estil actual (" + escaladorExists.getEstil() + "): ");
+            String nouEstil = scan.nextLine();
+            if (!nouEstil.isEmpty()) escaladorExists.setEstil(nouEstil);
+
+            // Cridem al DAO per fer el update
+            escaladorDAO.modificar(escaladorExists);
+
+            View.successMessage();
+        } catch (Exception e) {
+            System.out.println("Error al modificar l'escalador: " + e.getMessage());
+        }
+    }
 
     //Funcions per mostrar 1
     private static void mostrar_1_Escola(){
@@ -440,6 +680,83 @@ public class Main {
             escaladors.forEach(System.out::println);
         } catch (Exception error){
             System.out.println(error.getMessage());
+        }
+    }
+
+
+    //Funcions per casos especifics
+    private static void viesDisponibles(){
+        System.out.println("Quina escola vols mostrar?");
+        String nom = scan.nextLine();
+
+        try {
+            ViaDAO viaDAO = new ViaDAO(connection);
+
+            List<Via> vies = viaDAO.viesDisponibles(nom);
+
+            if(vies.isEmpty()){
+                throw new Exception("No hi ha cap via apte a aquesta escola...");
+            }
+
+            vies.forEach(System.out::println);
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+
+
+
+
+
+    }
+    private static void viesPerRang() {
+        System.out.print("Introdueix el primer valor: ");
+        String primer = scan.next();
+        scan.nextLine();
+
+        System.out.print("Introdueix el segons valor: ");
+        String segon = scan.next();
+        scan.nextLine();
+
+        try{
+            ViaDAO viaDAO = new ViaDAO(connection);
+
+            List<Via> vies = viaDAO.viesPerRang(primer, segon);
+
+            if(vies.isEmpty()){
+                throw new Exception("No hi ha cap via amb aquest rang");
+            }
+
+            for (Via v : vies) {
+                System.out.println("Nom: " + v.getNom() + "\n" +
+                        "Llargada: " + v.getLlargada() + "\n" +
+                        "Dificultat ID: " + v.getId_dificultat() +"\n" +
+                        "Estat: " + v.getEstat());
+                System.out.println();
+            }
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+
+
+
+    }
+    private static void viesPerEstat(){
+        System.out.print("Per quin estat vols filtrar? ");
+        String estat = scan.next();
+        scan.nextLine();
+
+        try{
+            ViaDAO viaDAO = new ViaDAO(connection);
+
+            List<Via> vies = viaDAO.viesPerEstat(estat);
+
+            if(vies.isEmpty()){
+                throw new Exception("No hi ha cap via amb aquest estat");
+            }
+
+            vies.forEach(System.out::println);
+        } catch (Exception e){
+            System.out.println(e.getMessage());
         }
     }
 }

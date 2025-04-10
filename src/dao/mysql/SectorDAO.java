@@ -34,7 +34,26 @@ public class SectorDAO implements DAO<Sector, Integer>{
 
     @Override
     public void modificar(Sector sector) {
-        System.out.println("Not yet implemented");
+        String sql = "UPDATE sector SET nom = ?, coordenades = ?, acces = ?, num_vies = ?, dificultat = ?, regulacions = ?, id_escola = ? WHERE id = ?";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, sector.getNom());
+            ps.setString(2, sector.getCoordenades());
+            ps.setString(3, sector.getAcces());
+            ps.setInt(4, sector.getNum_vies());
+            ps.setString(5, sector.getDificultat());
+            ps.setString(6, sector.getRegulacions());
+            ps.setInt(7, sector.getId_escola());
+            ps.setInt(8, sector.getId());
+
+            int filesAfectades = ps.executeUpdate();
+
+            if (filesAfectades == 0) {
+                System.out.println("No s'ha modificat cap registre. Comprova que el nom sigui correcte.");
+            }
+        } catch (SQLException e) {
+            System.out.println("Error al modificar el sector: " + e.getMessage());
+        }
     }
 
     @Override

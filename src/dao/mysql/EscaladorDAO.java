@@ -35,8 +35,25 @@ public class EscaladorDAO implements DAO<Escalador, Integer> {
 
     @Override
     public void modificar(Escalador escalador) {
-        System.out.println("Not yet implemented");
+        String sql = "UPDATE escalador SET nom = ?, nick = ?, edat = ?, nivell = ?, via_favorita = ?, estil = ? WHERE id = ?";
 
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, escalador.getNom());
+            ps.setString(2, escalador.getNick());
+            ps.setInt(3, escalador.getEdat());
+            ps.setString(4, escalador.getNivell());
+            ps.setString(5, escalador.getVia_favorita());
+            ps.setString(6, escalador.getEstil());
+            ps.setInt(7, escalador.getId());
+
+            int filesAfectades = ps.executeUpdate();
+
+            if (filesAfectades == 0) {
+                System.out.println("No s'ha modificat cap registre. Comprova que el nom sigui correcte.");
+            }
+        } catch (SQLException e) {
+            System.out.println("Error al modificar l'escalador: " + e.getMessage());
+        }
     }
 
     @Override
@@ -145,4 +162,6 @@ public class EscaladorDAO implements DAO<Escalador, Integer> {
             throw new Exception(e.getMessage());
         }
     }
+
+
 }
