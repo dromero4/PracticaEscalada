@@ -36,7 +36,7 @@ public class Main {
                         case 2 -> viesPerRang();
                         case 3 -> viesPerEstat();
                         case 4 -> escolesAmbRestriccions();
-                        //case 5 -> sectorsVies();
+                        case 5 -> sectorsVies();
                         //case 6 -> escaladorsMaxNivell();
                         //case 7 -> viesAptesRecentment();
                         //case 8 -> viesMesLlarguesEscola();
@@ -773,5 +773,22 @@ public class Main {
         } catch (Exception e){
             System.out.println(e.getMessage());
         }
+    }
+    private static void sectorsVies(){
+        System.out.print("Amb més de quantes vies vols mostrar els sectors? ");
+        int nVies = scan.nextInt();
+
+        try{
+            SectorDAO sectorDAO = new SectorDAO(connection);
+
+            List<Sector> sectors = sectorDAO.sectorsVies(nVies);
+
+            sectors.forEach(sector -> System.out.println(sector + "\n"));
+
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+
+
     }
 }

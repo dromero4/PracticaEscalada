@@ -163,4 +163,38 @@ public class SectorDAO implements DAO<Sector, Integer>{
             throw new Exception(e.getMessage());
         }
     }
+
+    public List<Sector> sectorsVies(int nVies) {
+        String query = "SELECT * FROM sector WHERE num_vies > ?";
+        List<Sector> sectors = new ArrayList<>();
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            // Establecer el parámetro `nVies` en el PreparedStatement
+            stmt.setInt(1, nVies);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                // Recorrer todas las filas del ResultSet
+                while (rs.next()) {
+                    sectors.add(new Sector(
+                            rs.getString("nom"),
+                            rs.getString("coordenades"),
+                            rs.getString("acces"),
+                            rs.getInt("num_vies"),
+                            rs.getString("dificultat"),
+                            rs.getString("regulacions"),
+                            rs.getInt("id_escola")
+                    ));
+                }
+
+                // Si no se ha encontrado ningún sector, lanzar excepción
+                if (sectors.isEmpty()) {
+                    throw new RuntimeException("No s'ha trobat cap sector amb més de " + nVies + " vies...");
+                }
+
+                return sectors;
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("Error al obtener los sectores: " + e.getMessage());
+        }
+    }
+
 }
