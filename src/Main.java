@@ -35,7 +35,7 @@ public class Main {
                         case 1 -> viesDisponibles();
                         case 2 -> viesPerRang();
                         case 3 -> viesPerEstat();
-                        //case 4 -> escolesAmbRestriccions();
+                        case 4 -> escolesAmbRestriccions();
                         //case 5 -> sectorsVies();
                         //case 6 -> escaladorsMaxNivell();
                         //case 7 -> viesAptesRecentment();
@@ -117,7 +117,7 @@ public class Main {
         String dificultat = scan.next();
         scan.nextLine();
 
-        System.out.print("Regulacions: ");
+        System.out.print("Regulacions: (Deixar en blanc si no hi ha cap)");
         String regulacions = scan.nextLine();
 
 
@@ -755,6 +755,21 @@ public class Main {
             }
 
             vies.forEach(System.out::println);
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
+    private static void escolesAmbRestriccions(){
+        try{
+            EscolaDAO escolaDAO = new EscolaDAO(connection);
+
+            List<Escola> escoles = escolaDAO.escolesAmbRestriccions();
+
+            if(escoles.isEmpty()){
+                throw new Exception("No hi ha cap escola amb restriccions");
+            }
+
+            escoles.forEach(System.out::println);
         } catch (Exception e){
             System.out.println(e.getMessage());
         }

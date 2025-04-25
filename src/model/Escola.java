@@ -75,17 +75,19 @@ public class Escola {
     }
 
     //verificacions
-    private boolean verificarDificultat(String dificultat){
+    private boolean verificarDificultat(String dificultat) {
         String[] dificultats = {"baixa", "mitjana", "alta"};
 
         for (int i = 0; i < dificultats.length; i++) {
-            if (dificultat.toLowerCase().equals(dificultats[i])){
+            if (dificultat.toLowerCase().equals(dificultats[i])) {
                 return true;
             }
         }
 
         return false;
     }
+
+
 
     //toString
     @Override

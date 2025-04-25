@@ -44,7 +44,6 @@ public class EscolaDAO implements DAO<Escola, Integer>{
         }
     }
 
-
     @Override
     public void modificar(Escola escola) {
         String sql = "UPDATE escola SET nom = ?, poblacio = ?, acces = ?, num_vies = ?, dificultat = ?, regulacions = ? WHERE id = ?";
@@ -67,7 +66,6 @@ public class EscolaDAO implements DAO<Escola, Integer>{
             System.out.println("Error al modificar l'escola: " + e.getMessage());
         }
     }
-
 
     @Override
     public void eliminar(Escola escola) throws Exception {
@@ -155,4 +153,25 @@ public class EscolaDAO implements DAO<Escola, Integer>{
         }
     }
 
+    public List<Escola> escolesAmbRestriccions(){
+        String query = "SELECT * FROM escola WHERE regulacions != ''";
+        List<Escola> escoles = new ArrayList<>();
+        try (Statement stmt = connection.createStatement(); ResultSet rs = stmt.executeQuery(query)) {
+            while (rs.next()) {
+                Escola escola = new Escola(
+                        rs.getString("nom"),
+                        rs.getString("poblacio"),
+                        rs.getString("acces"),
+                        rs.getInt("num_vies"),
+                        rs.getString("dificultat"),
+                        rs.getString("regulacions")
+                );
+                escoles.add(escola);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        return escoles;
+    }
 }
