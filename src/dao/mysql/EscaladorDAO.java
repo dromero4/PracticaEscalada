@@ -18,7 +18,7 @@ public class EscaladorDAO implements DAO<Escalador, Integer> {
 
     @Override
     public void inserir(Escalador escalador) {
-        String query = "INSERT INTO escalador (nom, nick, edat, nivell, via_favorita, estil) VALUES (?, ?, ?, ?, ?)";
+        String query = "INSERT INTO escalador (nom, nick, edat, nivell, via_favorita, estil) VALUES (?, ?, ?, ?, ?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
 
             stmt.setString(1, escalador.getNom());

@@ -12,9 +12,7 @@ public class Sector {
             throw new Exception("Les coordenades han de ser p.ex: [43, 52]");
         }
 
-        if(!verificarEscola(id_escola)){
-            throw new Exception("Les escoles han de estar entre 1 i 3");
-        }
+
 
         if(!verificarDificultat(dificultat)){
             throw new Exception("La dificultat ha de ser: [alta, mitjana o baixa]");

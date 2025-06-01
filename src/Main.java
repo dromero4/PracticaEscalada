@@ -99,28 +99,56 @@ public class Main {
 
     //Funcions per inserir
     private static void afegirEscola(){
+        String nom;
+        int num_vies;
+        String poblacio;
+        String acces;
+        String dificultat;
+        String regulacions;
 
-        System.out.print("Nom: ");
-        String nom = scan.nextLine();
+        while(true){
+            System.out.print("Nom: ");
+            nom = scan.nextLine();
 
-        System.out.print("Numero de vies: ");
-        int num_vies = scan.nextInt();
+            if(nom.isEmpty()){
+                System.out.println("El nom no pot estar buit");
+            } else {
+                break;
+            }
+        }
+
+        while(true){
+            System.out.print("Numero de vies: ");
+            num_vies = scan.nextInt();
+
+            if(num_vies < 0){
+                System.out.println("El numero no pot ser negatiu");
+            } else {
+                break;
+            }
+        }
         scan.nextLine();
 
         System.out.print("Població: ");
-        String poblacio = scan.nextLine();
+        poblacio = scan.nextLine();
 
         System.out.print("Accés: ");
-        String acces = scan.nextLine();
+        acces = scan.nextLine();
 
-        System.out.print("Dificultat: ");
-        String dificultat = scan.next();
+        while(true){
+            System.out.print("Dificultat: ");
+            dificultat = scan.next();
+
+            if(!(dificultat.equalsIgnoreCase("baixa") || dificultat.equalsIgnoreCase("mitjana") || dificultat.equalsIgnoreCase("alta") )){
+                System.out.println("La dificultat ha de ser [baixa | mitjana | alta]");
+            } else {
+                break;
+            }
+        }
         scan.nextLine();
 
         System.out.print("Regulacions: (Deixar en blanc si no hi ha cap)");
-        String regulacions = scan.nextLine();
-
-
+        regulacions = scan.nextLine();
 
         try {
             Escola escola = new Escola(nom, poblacio, acces, num_vies, dificultat, regulacions);
@@ -134,40 +162,87 @@ public class Main {
         }
     }
     private static void afegirVia(){
-        System.out.print("Nom: ");
-        String nom = scan.nextLine();
+        String nom;
+        int llargada;
+        int dificultat;
+        String orientacio;
+        String estat;
+        int escola;
+        int sector;
+        String roca;
+        int escalador;
+        String estil;
+
+
+        while(true){
+            System.out.print("Nom: ");
+            nom = scan.nextLine();
+
+            if(nom.isEmpty()){
+                System.out.println("El nom no pot estar buit");
+            } else {
+                break;
+            }
+        }
 
         System.out.print("Llargada ");
-        int llargada = scan.nextInt();
+        llargada = scan.nextInt();
         scan.nextLine();
 
-        System.out.print("Dificultat: [1-19]");
-        int dificultat = scan.nextInt();
+        while(true){
+            System.out.print("Dificultat: [1-19]");
+            dificultat = scan.nextInt();
+
+            if(dificultat <= 0 || dificultat >= 19){
+                System.out.println("La dificultat ha d'estar entre 1 i 19");
+            } else {
+                break;
+            }
+        }
         scan.nextLine();
 
-        System.out.print("Orientació: [ex: SO]");
-        String orientacio = scan.next();
+        while(true){
+            String[] ORIENTACIONS = {"s", "e", "o", "n", "se", "ne", "no", "so"};
+            System.out.print("Orientació: [ex: SO]");
+            orientacio = scan.next();
+
+            boolean equal = false;
+
+            for (int i = 0; i < ORIENTACIONS.length; i++) {
+                if(orientacio.equalsIgnoreCase(ORIENTACIONS[i])){
+                    equal = true;
+                }
+
+            }
+
+            if(!equal){
+                System.out.println("Les orientacions son les seguents: s, e, o, n, se, ne, no, so");
+            } else {
+                break;
+            }
+        }
 
 
-        System.out.print("Estat: [tancada, Apte, construncció]");
-        String estat = scan.next();
+
+        System.out.print("Estat: [tancada, Apte, construcció]");
+        estat = scan.next();
 
         System.out.print("Escola: [ID] ");
-        int escola = scan.nextInt();
+        escola = scan.nextInt();
 
         System.out.print("Sector: [ID] ");
-        int sector = scan.nextInt();
+        sector = scan.nextInt();
         scan.nextLine();
 
         System.out.print("Tipus de roca: [conglomerat, granit, calcaria] ");
-        String roca = scan.nextLine();
+        roca = scan.nextLine();
 
         System.out.print("Escalador. [ID]");
-        int escalador = scan.nextInt();
+        escalador = scan.nextInt();
         scan.nextLine();
 
         System.out.print("Estil: [gel, esportiva, classica]");
-        String estil = scan.nextLine();
+        estil = scan.nextLine();
 
 
         try {
@@ -182,35 +257,92 @@ public class Main {
         }
     }
     private static void afegirSector(){
-        System.out.print("Nom: ");
-        String nom = scan.nextLine();
+        String nom;
+        String coordenades;
+        String acces;
+        int num_vies;
+        String dificultat;
+        String regulacions;
+        int escola_ID;
 
-        System.out.print("Coordenades: [X, Y] "); //verificar
-        String coordenades = scan.nextLine();
+        while(true){
+            System.out.print("Nom: ");
+            nom = scan.nextLine();
 
-        scan.nextLine();
+            if(nom.isEmpty()){
+                System.out.println("El nom no pot estar buit");
+            } else {
+                break;
+            }
+        }
+
+        while(true){
+            System.out.print("Coordenades: X,Y "); //verificar
+            coordenades = scan.nextLine();
+
+            if(!coordenades.matches("^-?\\d+(\\.\\d+)?,-?\\d+(\\.\\d+)?$")){
+                System.out.println("Les coordenades han de ser: [X,Y]");
+            } else {
+                break;
+            }
+        }
 
         System.out.print("Accés: ");
-        String acces = scan.nextLine();
+        acces = scan.nextLine();
 
-        System.out.print("Numero de vies: ");
-        int num_vies = scan.nextInt();
+        while(true){
+            System.out.print("Numero de vies: ");
+            num_vies = scan.nextInt();
+
+            if(num_vies < 0){
+                System.out.println("El numero no pot ser negatiu");
+            } else {
+                break;
+            }
+        }
         scan.nextLine();
 
-        System.out.print("Dificultat: [Baixa, mitjana, alta]"); //verificar
-        String dificultat = scan.next();
+        while(true){
+            System.out.print("Dificultat: [baixa, mitjana o alta]");
+            dificultat = scan.next();
+
+            if(!(dificultat.equalsIgnoreCase("baixa") ||dificultat.equalsIgnoreCase("mitjana") ||dificultat.equalsIgnoreCase("alta")) ){
+                System.out.println("La dificultat ha de ser [baixa | mitjana | alta]");
+            } else {
+                break;
+            }
+        }
         scan.nextLine();
 
-        System.out.print("Regulacions: ");
-        String regulacions = scan.nextLine();
-
-        System.out.print("Escola: [ID] "); //verificar
-        int escola = scan.nextInt();
-        scan.nextLine();
-
-
+        System.out.print("Regulacions: (deixar en blanc en cas de no haver-hi)");
+        regulacions = scan.nextLine();
         try {
-            Sector sector = new Sector(nom, coordenades, acces, num_vies, dificultat, regulacions, escola);
+
+
+            EscolaDAO escolaDAO = new EscolaDAO(connection);
+            List<Escola> escoles = escolaDAO.obtenirTots();
+            System.out.println("Escoles disponibles");
+            for (Escola escola : escoles) {
+                System.out.println("Nom: " + escola.getNom());
+            }
+            while(true){
+                System.out.print("Escola: [ID] "); //verificar
+                escola_ID = scan.nextInt();
+
+                if(escola_ID > escoles.size()){
+                    System.out.println("Has de posar un ID valid");
+
+                } else {
+                    break;
+                }
+            }
+
+            scan.nextLine();
+
+
+
+
+            Sector sector = new Sector(nom, coordenades, acces, num_vies, dificultat, regulacions, escola_ID);
 
 
             SectorDAO SectorDAO = new SectorDAO(connection);
@@ -222,25 +354,95 @@ public class Main {
         }
     }
     private static void afegirEscalador() {
-        System.out.print("Nom: ");
-        String nom = scan.nextLine();
+        String nom;
+        String nick;
+        int edat;
+        String nivell;
+        String via_favorita;
+        String estil;
 
-        System.out.print("Nick: ");
-        String nick = scan.nextLine();
+        while(true){
+            System.out.print("Nom: ");
+            nom = scan.nextLine();
 
-        System.out.print("Edat: ");
-        int edat = scan.nextInt();
+            if(nom.isEmpty()){
+                System.out.println("El nom no pot estar buit");
+            } else {
+                break;
+            }
+        }
+
+
+        while(true){
+            System.out.print("Nick: ");
+            nick = scan.nextLine();
+
+            if(nick.isEmpty()){
+                System.out.println("El nick no pot estar buit");
+            } else {
+                break;
+            }
+        }
+
+
+        while(true){
+            System.out.print("Edat: ");
+            edat = scan.nextInt();
+
+            if(edat <= 1){
+                System.out.println("L'edat ha de ser major a 0");
+            } else {
+                break;
+            }
+        }
         scan.nextLine();
 
-        System.out.print("Nivell: "); //verificar
-        String nivell = scan.next();
+
+        while(true){
+            String[] nivells = {"4","4+","5","5+","6a","6a+","6b","6b+","6c","6c+","7a","7a+","7b","7b+","7c","7c+","8a","8a+","8b"};
+            System.out.print("Nivell: "); //verificar
+            nivell = scan.next();
+
+            boolean equal = false;
+
+            for (int i = 0; i < nivells.length; i++) {
+                if(nivell.equalsIgnoreCase(nivells[i])){
+                    equal = true;
+                }
+            }
+
+            if(!equal){
+                System.out.println("Els nivells son els seguents: 4, 4+, 5, 5+, 6a, 6a+, 6b, 6b+, 6c, 6c+... fins a 8b");
+            } else {
+                break;
+            }
+        }
         scan.nextLine();
+
 
         System.out.print("Via favorita: ");
-        String via_favorita = scan.nextLine();
+        via_favorita = scan.nextLine();
 
-        System.out.print("Estil: "); //verificar
-        String estil = scan.next();
+
+        while(true){
+            String[] estils = {"esportiva", "gel", "classica", "clàssica"};
+            System.out.print("Estil: "); //verificar
+            estil = scan.next();
+
+            boolean equal = false;
+
+            for (int i = 0; i < estils.length; i++) {
+                if(nivell.equalsIgnoreCase(estils[i])){
+                    equal = true;
+                }
+            }
+
+            if(!equal){
+                System.out.println("Les orientacions son les seguents: s, e, o, n, se, ne, no, so");
+            } else {
+                break;
+            }
+        }
         scan.nextLine();
 
         try {
@@ -325,7 +527,7 @@ public class Main {
             Via viaExists = viaDAO.obtenir(id); // Obtenim l'objecte complet
 
             if (viaExists == null) {
-                System.out.println("No s'ha trobat cap escola amb aquest nom.");
+                System.out.println("No s'ha trobat cap via amb aquest nom.");
                 return;
             }
 

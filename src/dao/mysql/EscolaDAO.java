@@ -15,6 +15,20 @@ public class EscolaDAO implements DAO<Escola, Integer>{
 
     @Override
     public void inserir(Escola escola) {
+        // Verificar si ya existe una escuela con el mismo nombre
+        String checkQuery = "SELECT COUNT(*) FROM escola WHERE nom = ?";
+        try (PreparedStatement checkStmt = connection.prepareStatement(checkQuery)) {
+            checkStmt.setString(1, escola.getNom());
+            try (ResultSet rs = checkStmt.executeQuery()) {
+                if (rs.next() && rs.getInt(1) > 0) {
+                    throw new RuntimeException("Ja existeix una escola amb el nom: " + escola.getNom());
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Error al verificar l'existència de l'escola: " + e.getMessage(), e);
+        }
+
+        // Si no existe, entonces insertar
         String query = "INSERT INTO escola (nom, poblacio, acces, num_vies, dificultat, regulacions) VALUES (?, ?, ?, ?, ?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             stmt.setString(1, escola.getNom());
@@ -24,25 +38,23 @@ public class EscolaDAO implements DAO<Escola, Integer>{
             stmt.setString(5, escola.getDificultat());
             stmt.setString(6, escola.getRegulacions());
 
-            // Ejecutar la inserción
             int affectedRows = stmt.executeUpdate();
 
-            // Verificar si se generaron claves
             if (affectedRows > 0) {
                 try (ResultSet rs = stmt.getGeneratedKeys()) {
                     if (rs.next()) {
-                        // Obtener el ID generado y asignarlo a la escuela
                         escola.setId(rs.getInt(1));
                     }
                 }
             } else {
-                throw new SQLException("La inserción no ha afectado ninguna fila.");
+                throw new SQLException("La inserció no ha afectat cap fila.");
             }
 
         } catch (Exception e) {
-            throw new RuntimeException("Error al insertar la escuela: " + e.getMessage(), e);
+            throw new RuntimeException("Error al inserir l'escola: " + e.getMessage(), e);
         }
     }
+
 
     @Override
     public void modificar(Escola escola) {
